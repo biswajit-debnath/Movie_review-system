@@ -64,28 +64,6 @@ app.post("/login",async (req,res)=> {
 });
 
 
-app.get("/auth",(req,res)=>{
-	console.log("In Auth");
-
-	const auth_token = req.cookies.auth_token;
-	 console.log(auth_token);
-	if (!auth_token) {
-		res.status(401).end();
-	}
-	else {
-		try {
-			verified = jwt.verify(auth_token,'abcdefg');
-			console.log(verified);
-			req.user = verified;
-			res.status(200).end();
-		} catch (err) {
-			res.status(401).end();
-		}
-	}
-
-	
-});
-
 
 
 

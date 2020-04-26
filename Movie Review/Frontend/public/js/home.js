@@ -22,7 +22,6 @@ $(window).on("load", function() {
 	ul.append(li);
 	});	
 
-	console.log(ul);
 
 
 });

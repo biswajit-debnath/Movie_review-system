@@ -1,6 +1,5 @@
 ////dbpass=chatapp123
 const express = require("express");
-const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const mongoose = require("mongoose");
@@ -16,6 +15,7 @@ let messages = []; //[{ mssz: "Welcome",name: "Biswajit"}]
 const auth = require("./auth");
 const ifLoggedIn = require("./ifLoggedIn");
 
+const app = express();
 let Users_In_room = {};
 let room_models = {};
 const length = {};
@@ -25,6 +25,7 @@ let count = 1000;
 // };
 let roooms = [];
 const people = []; //[{name:name , id:ID}]
+
 
 dotenv.config();
 app.use(cookieParser());
