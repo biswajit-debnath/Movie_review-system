@@ -55,7 +55,7 @@ app.post("/login",async (req,res)=> {
 		  );
 		  // res.cookie("auth_token", auth_token)
 		  // console.log(auth_token);
-		  res.json({auth_token:auth_token,status:200}).end();
+		  res.json({auth_token:auth_token,status:200,u_name:user}).end();
 		}
 	} else {
 		res.json({status:400}).end();

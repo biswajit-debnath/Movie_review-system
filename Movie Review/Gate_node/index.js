@@ -2,11 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
 const cookieParser = require("cookie-parser");
-
+const cors = require('cors');
 
 //including modules and routes
 const auth_route = require("./routes/authentication");
 const userMovie_route = require("./routes/userMovie");
+const movieItem_route = require("./routes/movieItem")
 const token_verify = require("./My_modules/token_verify");
 
 PORT=5001;
@@ -16,12 +17,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
 app.use(cookieParser());
 
 
 //Routes
 app.use(auth_route);
 app.use(userMovie_route);
+app.use(movieItem_route);
 
 
 

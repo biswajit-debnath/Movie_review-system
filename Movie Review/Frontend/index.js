@@ -17,8 +17,20 @@ app.use(cookieParser());
 PORT = 8080;
 
 
-app.get("/",(req,res)=>{
-	res.render("home");
+let user = {};
+
+
+app.get("/home",(req,res)=>{
+
+	try{ 
+		fetch('http://localhost:5001/movieItem')
+			.then(res_body=> res_body.json())
+		    .then(response =>{
+		    		res.render("home",{response});
+		    });
+		}catch(err){
+		console.log(err);
+	}
 });
 
 app.get("/login",(req,res)=>{
@@ -39,8 +51,10 @@ app.post("/login",(req,res)=>{
 	  		}).then(res_body=> res_body.json())
 		    .then(response =>{
 		    	if(response.status == 200){
-		    		console.log(response);
-		    		res.cookie("auth_token",response.auth_token).redirect("/");
+		    		// user["id"] = response.u_id;
+		    		user["u_name"] = response.u_name;
+		    		console.log(user);
+		    		res.cookie("auth_token",response.auth_token).redirect("/home");
 		    	}
 		    	else res.redirect("/login?valid=none");
 		    });
@@ -52,13 +66,13 @@ app.post("/login",(req,res)=>{
 
 
 app.get("/userMovie",(req,res)=>{
-	body= {id:1,name:"Biswajit"};
+	// body= {id:1,name:"Biswajit"};
 	const auth_token = req.cookies.auth_token;
 	// console.log(auth_token);
 	try{ 
 		fetch('http://localhost:5001/userMovie', {
 				 method: 'post',
-				 body: JSON.stringify(body),
+				 body: JSON.stringify(user),
 	  			 headers: {
 				    'Content-Type': 'application/json',
 				    'Cookie': 'auth_token='+auth_token+''
@@ -66,9 +80,8 @@ app.get("/userMovie",(req,res)=>{
 	  		})
 			.then(res_body=> res_body.json())
 		    .then(response =>{
-		    	const re= response;
-		    	console.log(typeof(response));
 		    	if(response.status != 401){
+		    		console.log(response);
 		    		res.render("userMovie",{response});	
 		    	}
 		    	else res.redirect("/login?valid=not_allowed");
@@ -81,7 +94,7 @@ app.get("/userMovie",(req,res)=>{
 
 });
 
-app.get("/logout",(req,res)=> res.clearCookie("auth_token").redirect("/"));
+app.get("/logout",(req,res)=> res.clearCookie("auth_token").redirect("/home"));
 
 
 

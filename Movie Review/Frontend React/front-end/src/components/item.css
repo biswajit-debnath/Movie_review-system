@@ -1,0 +1,8 @@
+ .col_width {
+ 	max-width: fit-content !important;
+ 	margin-bottom: 40px;
+ }
+
+ .row_center {
+ 	justify-content: space-around;
+ }

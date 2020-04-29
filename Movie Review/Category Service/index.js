@@ -5,13 +5,16 @@ const fetch = require("node-fetch");
 const cookieParser = require("cookie-parser");
 
 const userMovie_route = require("./routes/userMovie")
+const homeMovieList_route = require("./routes/homeMovieList")
 
 app.use(bodyParser.json()); 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
+
 app.use(userMovie_route);
+app.use(homeMovieList_route);
 PORT=3000;
 
 

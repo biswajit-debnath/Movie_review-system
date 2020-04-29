@@ -2,10 +2,6 @@ $(window).on("load", function() {
 
 	//Fetch data from gateway at /movieItem
 
-	
-
-		
-
 	const ul = $("#movies")
 
 
@@ -15,8 +11,8 @@ $(window).on("load", function() {
 
 	ul.append(li);
 	});	
-
-	console.log(ul);
+	$("#u_name").html(data_json.u_name);
+	console.log(data_json.u_name);
 
 
 });
