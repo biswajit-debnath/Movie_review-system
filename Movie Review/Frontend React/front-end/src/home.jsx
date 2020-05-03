@@ -11,21 +11,34 @@ class Home extends Component {
 	      error: null,
 	      isLoaded: false,
 	      items: [],
-	      login_state:"login"
+	      login_state:"login",
+	      u_name:"",
+
 	    };
 	    console.log("constructor");
   	}
 
 
 	componentDidMount() {
-		this.state_check();
-		fetch("http://localhost:5001/movieItem")
+		const bearer = 'Bearer ' + localStorage.getItem('auth_token');
+		let user={u_name:localStorage.getItem('u_name')};
+		this.token_check_local();
+		fetch("http://localhost:5001/movieItem",{
+			method: 'POST', 
+			headers: {
+            'Authorization': bearer,
+            'Content-Type': 'application/json'
+        	},
+			body: JSON.stringify(user) 
+
+		})
 		  .then(res => res.json())
 		  .then(
 		    (result) => {
 		      this.setState({
 		        isLoaded: true,
-		        items: result.data
+		        items: result.data,
+		        u_name:result.u_name
 		      });
 		    },
 		  (error) => {
@@ -37,7 +50,7 @@ class Home extends Component {
 		)
 	}
 
-	state_check = () => {
+	token_check_local = () => {
 		console.log("status_check");
 		 if(localStorage.getItem("auth_token")) this.setState({login_state:"logout"});
 		 else this.setState({login_state:"login"});
@@ -45,12 +58,14 @@ class Home extends Component {
 
 
 	render() {
+		if(this.state.isLoaded == true)
 		return (
 			<React.Fragment>
-				<Nav state={this.state.login_state}/>
-				<Movie_items data={this.state.items}/>
+				<Nav state={this.state.login_state} u_name={this.state.u_name}/>
+				<Movie_items data={this.state.items} u_name={this.state.u_name}/>
 			</React.Fragment>
 		);
+		return(<h1>Loading</h1>)
 	}
 }
 

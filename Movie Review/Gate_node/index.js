@@ -8,6 +8,8 @@ const cors = require('cors');
 const auth_route = require("./routes/authentication");
 const userMovie_route = require("./routes/userMovie");
 const movieItem_route = require("./routes/movieItem")
+const changeRating_route = require("./routes/changeRating"); 
+
 const token_verify = require("./My_modules/token_verify");
 
 PORT=5001;
@@ -25,7 +27,7 @@ app.use(cookieParser());
 app.use(auth_route);
 app.use(userMovie_route);
 app.use(movieItem_route);
-
+app.use(changeRating_route);
 
 
 

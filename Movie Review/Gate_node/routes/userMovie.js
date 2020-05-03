@@ -4,7 +4,12 @@ const fetch = require("node-fetch");
 const token_verify = require("../My_modules/token_verify");
 
 
-router.post("/userMovie",token_verify,async (req,res)=>{
+router.post("/userMovie",async (req,res)=>{
+
+	response=token_verify(req);
+	if(response != 200) res.json({status:401});
+
+	
 	//getting the user id
 	let user_name= req.body.u_name;
 	console.log(user_name)

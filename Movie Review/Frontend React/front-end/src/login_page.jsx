@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Login from './components/login';
 import { Redirect } from "react-router-dom";
+import Nav from './components/nav';
+
 
 
 
@@ -21,18 +23,20 @@ class Login_page extends Component {
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
-    }
+    }  
 
     
     url_checker=()=>{
-    	const urlParams = new URLSearchParams(window.location.search);
-    	const myParam = urlParams.get('valid');
-    	console.log(myParam);
+    	
+    	const myParam = new URLSearchParams(this.props.location.search).get("valid");
+    	if(myParam == "none")
+    		this.setState({alert_disply:"danger d-block",alert_txt:"You are not logged in"});
+    	else if(myParam == "correct")
+    		this.setState({alert_disply:"success d-block",alert_txt:"Account created succesfully"});
     }
 
     onSubmit = (e) =>{
     	e.preventDefault();
-    	this.url_checker();
     	fetch('http://localhost:5001/login', {
 				 method: 'post',
 				 body: JSON.stringify(this.state),
@@ -48,9 +52,11 @@ class Login_page extends Component {
 		      });
 		      if(result.status == 200) {
 		      	localStorage.setItem('auth_token',result.auth_token);
+		      	localStorage.setItem('u_name',result.u_name);
 		      	this.setState({redirect: "/"});
 
 		      }
+		      else if(result.status == 401) this.setState({alert_disply:"danger d-block",alert_txt:result.err});
 		      else {
 		      	this.setState({alert_disply:"d-block",alert_txt:"Wrong Credentials"});
 		      }
@@ -69,14 +75,20 @@ class Login_page extends Component {
 
     };
 
+	componentDidMount() {
+		this.url_checker();
+	}    
+
     
 
 
 	render() {
+	  
 	  if (this.state.redirect)
 	    return (<Redirect to={this.state.redirect} />);
 	  return (
 		<React.Fragment>
+			<Nav />
 			<Login 
 			onChange={this.onChange}
 			onSubmit={this.onSubmit}

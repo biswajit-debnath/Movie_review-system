@@ -24,5 +24,27 @@ router.post("/login",(req,res)=>{
 
 
 
+router.post("/signUp",(req,res)=>{
+	console.log("gate_Auth_Sign",req.body);
+
+	try{ 
+	fetch('http://localhost:5000/signUp', {
+			 method: 'post',
+			 body: JSON.stringify(req.body),
+  			 headers: {
+			    'Content-Type': 'application/json'
+  			}
+  		})
+		.then(res_body=> res_body.json())
+	    .then(response => res.json(response));
+		}catch(err){
+			console.log(err);
+	}
+	
+		
+});
+
+
+
 module.exports = router;
 

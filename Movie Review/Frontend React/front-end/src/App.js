@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Home from './home';
 import UserMovie from './userMovie';
+import SignUp_page from './signup_page';
 import Login_page from './login_page';
 import Logout from './logout';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -14,6 +15,7 @@ class App extends Component {
 					<Route path="/" exact component={Home} />
 					<Route path="/user" component={UserMovie} />
 					<Route path="/login" component={Login_page} />
+					<Route path="/sign" component={SignUp_page} />
 					<Route path="/logout" component={Logout} />
 				</Switch>
 			</Router>

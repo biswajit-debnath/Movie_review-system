@@ -3,6 +3,14 @@
  	margin-bottom: 40px;
  }
 
+ .col_width:hover {
+ 	
+ }
+
  .row_center {
  	justify-content: space-around;
+ }
+
+ .card:hover {
+ 	box-shadow: 3px 1px 18px -5px rgba(82,74,82,1);
  }

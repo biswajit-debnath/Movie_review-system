@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Nav from './components/nav';
 import Movie_items from './components/movie_items';
 import Cookies from 'js-cookie';
-import {fetch} from 'whatwg-fetch';
-import { Redirect } from "react-router-dom";;
+import { Redirect } from "react-router-dom";
 
 
 
@@ -15,15 +14,20 @@ class UserMovie extends Component {
 	      isLoaded: false,
 	      items: [],
 	      redirect:null,
-	      login_state:"logout"
+	      login_state:"logout",
+	      u_name:""
 	    };
   	}
 
 
 	componentDidMount() {
+		if(!localStorage.getItem('auth_token')){
+			this.setState({redirect:"/login?valid=none"});
+			return;
+		}
 		const bearer = 'Bearer ' + localStorage.getItem('auth_token');
-		let user={u_name:"Biswajit"};
-		console.log();
+		let user={u_name:localStorage.getItem('u_name')};
+		console.log("fetch");
 		fetch("http://localhost:5001/userMovie",{ 
 			method: 'POST', 
 			headers: {
@@ -38,11 +42,13 @@ class UserMovie extends Component {
 		    	if(result.status != 401){
 			      this.setState({
 			        isLoaded: true,
-			        items: result.data
+			        items: result.data,
+			        u_name:result.u_name
 			      });
+			      console.log(result);
 		  		}
 		      else {
-		      	this.setState({redirect: "/login?valid=none"});
+		      	this.setState({redirect:"/login?valid=none"});
 		      }
 		    },
 		    (error) => {
@@ -56,14 +62,18 @@ class UserMovie extends Component {
 
 
 	render() {
+		
 		if (this.state.redirect)
 	    	return (<Redirect to={this.state.redirect} />);
-		return (
-			<React.Fragment>
-				<Nav state={this.state.login_state}/>
-				<Movie_items data={this.state.items}/>
-			</React.Fragment>
-		);
+	    if(this.state.isLoaded == true){
+			return (
+				<React.Fragment>
+					<Nav state={this.state.login_state} u_name={this.state.u_name}/>
+					<Movie_items data={this.state.items}/>
+				</React.Fragment>
+			);
+		}
+		return(<h1>Loading</h1>);
 	}
 }
 

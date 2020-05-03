@@ -1,4 +1,20 @@
 
+/*//Rating Style*/
+.checked {
+  color: orange;
+}
+
+
+
+.movie_hover:hover {
+   cursor: pointer;
+}
+
+
+
+
+
+
 /* BASIC */
 
 html {
@@ -259,5 +275,6 @@ input[type=text]:placeholder, input[type=password]:placeholder {
 } 
 
 #icon {
-  width:60%;
+  width:60px;
+  margin-top: -45px;
 }
